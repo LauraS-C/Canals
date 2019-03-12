@@ -1,0 +1,36 @@
+﻿X,Y,OBJECTID,SAP_FUNC_LOC,SAP_DESCRIPTION,SAP_OBJECT_TYPE,Asset_Library,FL_DESC
+-1.563035141106792,51.408117399974401,74,KA-048-008,Froxfield 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-048/KA-048-008,KA-048-008 Froxfield 72 Foot Winding Hole
+-1.745311049444176,51.354791976378387,78,KA-065-015,Milkhouse Water 72ft Winding Hole,064,http://gateway/asset/Asset/KA/KA-065/KA-065-015,KA-065-015 Milkhouse Water 72ft Winding Hole
+-1.718971694322218,51.363220471898728,79,KA-062-021,Wootton River 72ft Winding Hole,064,http://gateway/asset/Asset/KA/KA-062/KA-062-021,KA-062-021 Wootton River 72ft Winding Hole
+-1.942118436397523,51.370645552403602,86,KA-082-012,Bishops Canning 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-082/KA-082-012,KA-082-012 Bishops Canning 72 Foot Winding Hole
+-1.963314130729067,51.361618709907177,87,KA-084-002,Laywoods 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-084/KA-084-002,KA-084-002 Laywoods 72 Foot Winding Hole
+-1.996674358785611,51.355428411062455,88,KA-086-024,Devizes Wharf 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-086/KA-086-024,KA-086-024 Devizes Wharf 72 Foot Winding Hole
+-1.211076174884421,51.392970034897552,89,KA-022-008,Midgham 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-022/KA-022-008,KA-022-008 Midgham 72 Foot Winding Hole
+-1.451585892537737,51.401740458460949,90,KA-040-011,Vicarage Bridge 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-040/KA-040-011,KA-040-011 Vicarage Bridge 72 Foot Winding Hole
+-1.477098123861848,51.409940318001226,91,KA-042-009,Wire Lock 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-042/KA-042-009,KA-042-009 Wire Lock 72 Foot Winding Hole
+-1.497217459514915,51.411733247435443,92,KA-043-009,Dunmill 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-043/KA-043-009,KA-043-009 Dunmill 72 Foot Winding Hole
+-1.512462500503753,51.416212242878686,93,KA-044-017,Hungerford 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-044/KA-044-017,KA-044-017 Hungerford 72 Foot Winding Hole
+-2.227593868179855,51.334534308791575,94,KA-104-015,Widbrook 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-104/KA-104-015,KA-104-015 Widbrook 72 Foot Winding Hole
+-2.165411381980263,51.345617613928695,95,KA-099-004,Whaddon 65 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-099/KA-099-004,KA-099-004 Whaddon 65 Foot Winding Hole
+-2.348706415532752,51.38361025852479,96,KA-120-038,Bath 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-120/KA-120-038,KA-120-038 Bath 72 Foot Winding Hole
+-2.319226746010233,51.397195125452797,97,KA-117-021,Bathampton 60 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-117/KA-117-021,KA-117-021 Bathampton 60 Foot Winding Hole
+-2.309152959362385,51.358216266129055,98,KA-112-013,Dundas 65 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-112/KA-112-013,KA-112-013 Dundas 65 Foot Winding Hole
+-1.410848304109287,51.402695511053473,99,KA-037-011,Dreweatt's 55 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-037/KA-037-011,KA-037-011 Dreweatt's 55 Foot Winding Hole
+-1.396301976341704,51.40086080529759,100,KA-036-008,Hamstead 72 Foot Winding Hole,064,http://gateway/asset/Asset/KA/KA-036/KA-036-008,KA-036-008 Hamstead 72 Foot Winding Hole
+-1.129718852501256,51.400667871248679,201,KA-016-032,"Winding Hole, 72 ft Padworth",064,http://gateway/asset/Asset/KA/KA-016/KA-016-032,"KA-016-032 Winding Hole, 72 ft Padworth"
+-1.246067794700874,51.392826174369723,202,KA-025-010,"Winding hole, 72ft Monkey Marsh",064,http://gateway/asset/Asset/KA/KA-025/KA-025-010,"KA-025-010 Winding hole, 72ft Monkey Marsh"
+-1.846663594444163,51.351572344211689,203,KA-073-017,"Winding Hole, Alton Valley",064,http://gateway/asset/Asset/KA/KA-073/KA-073-017,"KA-073-017 Winding Hole, Alton Valley"
+-1.906011005691935,51.361705354268402,204,KA-078-005,"Winding hole, 65ft Allington",064,http://gateway/asset/Asset/KA/KA-078/KA-078-005,"KA-078-005 Winding hole, 65ft Allington"
+-2.303876415283563,51.379692327750391,205,KA-115-008,"Winding Hole, Claverton",064,http://gateway/asset/Asset/KA/KA-115/KA-115-008,"KA-115-008 Winding Hole, Claverton"
+-1.645057717161822,51.359269696836179,260,KA-057-011,"Winding Hole, Wolfhall 72ft",064,http://gateway/asset/Asset/KA/KA-057/KA-057-011,"KA-057-011 Winding Hole, Wolfhall 72ft"
+-1.578006347749249,51.395886648835244,261,KA-050-011,"Winding Hole, Fore Bridge 55ft",064,http://gateway/asset/Asset/KA/KA-050/KA-050-011,"KA-050-011 Winding Hole, Fore Bridge 55ft"
+-1.274921943934879,51.393371868006305,262,KA-027-010,"Winding Hole, Widmead Lock ??",064,http://gateway/asset/Asset/KA/KA-027/KA-027-010,"KA-027-010 Winding Hole, Widmead Lock ??"
+-1.301648772083272,51.402364241183477,263,KA-029-025,"Winding Hole, Ham Lock ??",064,http://gateway/asset/Asset/KA/KA-029/KA-029-025,"KA-029-025 Winding Hole, Ham Lock ??"
+-1.318850997734449,51.401314287337314,264,KA-030-032,"Winding Hole, Newbury Island ??",064,http://gateway/asset/Asset/KA/KA-030/KA-030-032,"KA-030-032 Winding Hole, Newbury Island ??"
+-1.327074428271883,51.401062554619386,265,KA-031-022,"Winding Hole, West Mills ??",064,http://gateway/asset/Asset/KA/KA-031/KA-031-022,"KA-031-022 Winding Hole, West Mills ??"
+-2.316291400208064,51.394779948816705,266,KA-117-028,"Winding Hole, Bathampton",064,http://gateway/asset/Asset/KA/KA-117/KA-117-028,"KA-117-028 Winding Hole, Bathampton"
+-1.099252392622289,51.419221012639859,271,KA-013-024,"Winding Hole, Tyle Mill 72ft",064,http://gateway/asset/Asset/KA/KA-013/KA-013-024,"KA-013-024 Winding Hole, Tyle Mill 72ft"
+-1.193169001703934,51.393317682893418,272,KA-021-009,"Winding Hole, Heales Lk 60ft",064,http://gateway/asset/Asset/KA/KA-021/KA-021-009,"KA-021-009 Winding Hole, Heales Lk 60ft"
+-1.064819116179106,51.431867633943391,273,KA-010-018,"Winding hole, Sheffield 35ft",064,http://gateway/asset/Asset/KA/KA-010/KA-010-018,"KA-010-018 Winding hole, Sheffield 35ft"
+-1.612213487692701,51.366897776073522,384,KA-054-010,"Winding Hole, Beech Grove 55ft Max",064,http://gateway/asset/Asset/KA/KA-054/KA-054-010,"KA-054-010 Winding Hole, Beech Grove 55ft Max"
+-2.34907281048936,51.38084199846319,385,KA-121-043,"Winding Hole, Top lock 50ft Max",064,http://gateway/asset/Asset/KA/KA-121/KA-121-043,"KA-121-043 Winding Hole, Top lock 50ft Max"
