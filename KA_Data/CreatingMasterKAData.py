@@ -1,6 +1,20 @@
+"""
+Created Tuesday 12th March 2019
+Author: Laura Stock-Caldwell
+
+Input: filenames to parse data from - must contain field 'SAP_FUNC_LOC'
+Output: file 'All_KA_Data.csv' which contains the KA canal split into 1km 
+        sections with locations of locks and any other features specified by 
+        input files.
+        
+"""
+
 import pandas
 import numpy as np
 
+"""
+extracts kms along the canal from the SAP_FUNC_LOC
+"""
 def Getkm(SAP_FUNC_LOC):
     Loc = []
     for i in range(len(SAP_FUNC_LOC)):
@@ -9,6 +23,9 @@ def Getkm(SAP_FUNC_LOC):
         Loc.append(string)
     return Loc
       
+"""
+extract location data from files
+"""
 def MakeLocList(file):
     List = np.zeros(len(Section))
     Data = pandas.read_csv(file,engine='python')
@@ -21,7 +38,9 @@ def MakeLocList(file):
 
 Section = []
 
-#input Lock data from the csv file and put in list
+"""
+input Lock data from the csv file and put in list
+"""
 LockData = pandas.read_csv('Locks.csv',engine='python')
 LockLoc = LockData["SAP_FUNC_LOC"]
 LockName = LockData["SAP_DESCRIPTION"]
@@ -31,11 +50,15 @@ NumLocks = len(LockLoc)
 #X = np.zeros(140)
 #Y = np.zeros(140)
 
-#make list of each section
+"""
+make list of each section
+"""
 for i in range(140):
     Section.append(i)
 
-#add locks as section
+"""
+add locks as section
+"""
 km = Getkm(LockLoc)
 for i in range(NumLocks):
     ind = Section.index(km[i])
@@ -43,13 +66,27 @@ for i in range(NumLocks):
     #X.insert(ind+1,X[i])
     #Y.insert(ind+1,Y[i])
     
-Bridges = MakeLocList('Bridges_Public.csv')
-Aqueducts = MakeLocList('Aqueducts_Public.csv')
-Pumps = MakeLocList('Pumping_Stations.csv')
-TurnPoints = MakeLocList('Winding_Holes.csv')
-Tunnels = MakeLocList('Tunnels_Public.csv')
+""" 
+Feature files 
+"""
+Features = {'Section': Section,
+            'Bridges': 'Bridges_Public.csv',
+            'Aqueducts': 'Aqueducts_Public.csv',
+            'Pumps':'Pumping_Stations.csv',
+            'Turning Points':'Winding_Holes.csv',
+            'Tunnels':'Tunnels_Public.csv'}
 
-df = pandas.DataFrame(data={"Section": Section, "Bridges": Bridges, "Aqueducts": Aqueducts, "Pumps":Pumps, "Turning Points":TurnPoints,"Tunnels":Tunnels})
+for i in Features:
+    if i == "Section":
+        continue
+    else:
+        Features[i]= MakeLocList(Features[i])
+ 
+    
+"""
+write all data to csv file
+"""
+df = pandas.DataFrame(Features)
 df.to_csv("All_KA_Data.csv", sep=',',index=False)
 
     
