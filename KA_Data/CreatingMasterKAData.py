@@ -12,6 +12,10 @@ Output: file 'All_KA_Data.csv' which contains the KA canal split into 1km
 import pandas
 import numpy as np
 
+global Longitude
+global Latitude
+global ItemCount
+
 """
 extracts kms along the canal from the SAP_FUNC_LOC
 """
@@ -28,27 +32,39 @@ extract location data from files
 """
 def MakeLocList(file):
     List = np.zeros(len(Section))
-    Data = pandas.read_csv(file,engine='python')
+    Data = pandas.read_csv(file,engine='python',encoding="utf-8-sig")
     Loc = Data["SAP_FUNC_LOC"]
+    try:
+        Long = Data["X"]
+        Lat = Data["Y"]
+    except:
+        pass
     Loc = Getkm(Loc)
     for i in range(len(Loc)):
         ind = Section.index(Loc[i])
         List[ind] = List[ind]+1
+        try:
+            Longitude[ind] += Long[i]
+            Latitude[ind] += Lat[i]
+            ItemCount[ind] += 1
+        except:
+            pass
     return List
 
+
+
 Section = []
+
 
 """
 input Lock data from the csv file and put in list
 """
-LockData = pandas.read_csv('Locks.csv',engine='python')
+LockData = pandas.read_csv('Locks.csv',engine='python',encoding="utf-8-sig")
 LockLoc = LockData["SAP_FUNC_LOC"]
 LockName = LockData["SAP_DESCRIPTION"]
-#LockX = LockData["X"]
-#LockY = LockData["Y"]
+LockLong = LockData["Long"]
+LockLat = LockData["Lat"]
 NumLocks = len(LockLoc)
-#X = np.zeros(140)
-#Y = np.zeros(140)
 
 """
 make list of each section
@@ -63,9 +79,13 @@ km = Getkm(LockLoc)
 for i in range(NumLocks):
     ind = Section.index(km[i])
     Section.insert(ind+1,LockName[i])
-    #X.insert(ind+1,X[i])
-    #Y.insert(ind+1,Y[i])
+    #Longitude[ind] += LockLong[i]
+    #Latitude[ind] += LockLat[i]
     
+NumSections = len(Section)
+Longitude = np.zeros(NumSections)
+Latitude = np.zeros(NumSections)
+ItemCount = np.zeros(NumSections)
 """ 
 Feature files 
 """
@@ -80,14 +100,22 @@ for i in Features:
     if i == "Section":
         continue
     else:
+        print(Features[i])
         Features[i]= MakeLocList(Features[i])
- 
+        
+for i in range(NumSections):
+    Latitude[i] = Latitude[i]/ItemCount[i]
+    Longitude[i] = Longitude[i]/ItemCount[i]
+    
+Features['Latitude'] = Latitude
+Features['Longitude'] = Longitude
+print(Features)
     
 """
 write all data to csv file
 """
 df = pandas.DataFrame(Features)
-df.to_csv("All_KA_Data.csv", sep=',',index=False)
+df.to_csv("All_KA_Data_New.csv", sep=',',index=False)
 
     
 
