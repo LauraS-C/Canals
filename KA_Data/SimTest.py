@@ -117,7 +117,7 @@ for i in range(32):
 #df = pandas.DataFrame(Results)
 #df.to_csv("Results_of_SimTest.csv", sep=',',index=False)
   
-df =pandas.DatFrame(lockage)
+df =pandas.DataFrame(lockage)
 df.to_csv("Lockage results Model 1", sep=',',index=False)
     
 HeatMap(boats_in_section,sections)
