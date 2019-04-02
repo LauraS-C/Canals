@@ -47,11 +47,12 @@ def generate_hire_boats(hire_loc, orig_hire_num):
 class create_hire_boat:
     
     def __init__(self, origin):
-      self.speed = 1
       self.end_time = np.random.randint(1,32,size=None,dtype='int') # number of segments. Assume boats only go from 8am to 8pm max 
       self.current_time = 0 #how long been travellig for
-      self.current_direction = 1
-      self.start_direction = 1
+      ind = np.random.randint(0,1,size=None,dtype='int')
+      direction = [-1,1]
+      self.start_direction = direction[ind]
+      self.current_direction = direction[ind]      
       self.start_section = origin #need a way to randomly spawn boats from hire companies
       self.current_section = origin
       self.alive = True
@@ -59,10 +60,14 @@ class create_hire_boat:
       generate route decisions for each boat?
       """
       
-    def decision(self): #can make this decision process much more complicated
+    def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
         self.current_time += 1
         self.current_section = self.current_section + self.current_direction
-        if self.current_time > self.end_time//2:
+        if self.current_direction == 1:
+            turning = turningfor
+        else:
+            turning = turningback
+        if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1:
             self.current_direction = self.start_direction*-1
         if self.current_section == self.start_section:
             self.alive = False

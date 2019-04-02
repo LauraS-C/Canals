@@ -35,6 +35,8 @@ global time
 global boats
 global hire_ind
 global Results
+global winding_hole
+day_length = 12 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
 Results = {}
@@ -47,6 +49,9 @@ sections = canal['Section']
 lock_status = list(canal['Lock Status'])
 lockage = canal['Lockage']
 orig_hire_num = canal['Boat Hires']
+winding_hole = canal['Turning Points']
+turningfor = canal['next turning forward']
+turningback = canal['next turning back']
 
 """
 initialise lock status
@@ -69,7 +74,8 @@ for each time step generating hire boats to leave the hire companies and creatin
 """
 for i in range(32):
     time += 1 #mod 12
-    #day as count of loops of time    
+    day = day + (time // day_length)
+    time = time % day_length  
     """
     creating new boats and adding them to the boats list
     """
@@ -97,7 +103,7 @@ for i in range(32):
     move boats along here
     """
     for boat in boats:
-        boat.decision()
+        boat.decision(turningfor,turningback,winding_hole)
         boats_in_section[boat.current_section] += 1
         """
         making count of the direction of boats in each section
@@ -117,8 +123,8 @@ for i in range(32):
 #df = pandas.DataFrame(Results)
 #df.to_csv("Results_of_SimTest.csv", sep=',',index=False)
   
-df =pandas.DataFrame(lockage)
-df.to_csv("Lockage results Model 1", sep=',',index=False)
+#df =pandas.DataFrame(lockage)
+#df.to_csv("Lockage results Model 1", sep=',',index=False)
     
 HeatMap(boats_in_section,sections)
     
