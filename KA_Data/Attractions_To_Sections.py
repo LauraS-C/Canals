@@ -64,6 +64,7 @@ attractions_lat = attractions_lat.tolist()
 attractions = [attractions_name,attractions_lat,attractions_long]
 
 def assign(attraction):
+    print('hello')
     distances = []
     for i in range(len(sections)):
         point1 = (attraction[1],attraction[2])
@@ -72,8 +73,9 @@ def assign(attraction):
         distances.append(dist)
     min_dist = min(distances)
     min_index = distances.index(min(distances))
-    print(attraction[0],"is",min_dist,"km from Section",sections[min_index])
+    print(attraction[0],"is",min_dist*111,"km from Section",sections[min_index])
     return sections[min_index]
 
 for i in range(len(attractions_name)):
     assignments = assign([attractions[0][i],attractions[1][i],attractions[2][i]])
+    print('hi')
