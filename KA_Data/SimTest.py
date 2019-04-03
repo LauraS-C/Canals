@@ -10,13 +10,6 @@ import numpy as np
 import Boats
 #import seaborn as sb
 #import Lock_model
-"""
-import cProfile, pstats, io
-from pstats import SortKey
-pr = cProfile.Profile()
-pr.enable()
-"""
-
 
 
 def add_to_results(boats_in_section):
