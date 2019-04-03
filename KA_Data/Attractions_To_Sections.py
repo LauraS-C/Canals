@@ -11,24 +11,22 @@ import pandas
 import numpy as np
 from scipy.spatial import distance
 
-canal = pandas.read_csv('LatLong of sections.csv',engine='python')
-attraction_data =  pandas.read_csv('KAServicesLatLong.csv',engine='python')
+canal = pandas.read_csv('All_KA_Data.csv',engine='python')
+attraction_data =  pandas.read_csv('KAServices postcodes.csv',engine='python')
 
-sections_and_locks_series = canal['Section'] #last 2 rows erased
+sections_and_locks_series = canal['Section']
 sections_and_locks = sections_and_locks_series.tolist()
 
-latitude_series = canal['Latitude'] #last 2 rows erased
+latitude_series = canal['Latitude']
 latitude_incl_locks = latitude_series.tolist()
 
-longitude_series = canal['Longitude'] #last 2 rows erased
+longitude_series = canal['Longitude']
 longitude_incl_locks = longitude_series.tolist()
 
 section_coordinates = [sections_and_locks,latitude_incl_locks,longitude_incl_locks] #bringing it together
 
 for i in section_coordinates: #delete 1st row
     del i[0]
-    del i[245]
-    del i[245]
     
 sections = []
 index = []
@@ -52,7 +50,7 @@ for i in range(len(longitude)):
     flo = float(longitude[i])
     longitude[i] = flo
 
-attractions_name = attraction_data['ï»¿Name']
+attractions_name = attraction_data['Name']
 attractions_name = attractions_name.tolist()
 
 attractions_long = attraction_data['ukpostcodes.longitude']
@@ -64,7 +62,6 @@ attractions_lat = attractions_lat.tolist()
 attractions = [attractions_name,attractions_lat,attractions_long]
 
 def assign(attraction):
-    print('hello')
     distances = []
     for i in range(len(sections)):
         point1 = (attraction[1],attraction[2])
@@ -78,4 +75,3 @@ def assign(attraction):
 
 for i in range(len(attractions_name)):
     assignments = assign([attractions[0][i],attractions[1][i],attractions[2][i]])
-    print('hi')
