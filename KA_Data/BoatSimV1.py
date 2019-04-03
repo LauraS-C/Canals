@@ -8,19 +8,26 @@ Created on Wed Mar 13 17:36:51 2019
 import pandas
 import numpy as np
 import Boats
-import seaborn as sb
-import Lock_model
+#import seaborn as sb
+#import Lock_model
+"""
+import cProfile, pstats, io
+from pstats import SortKey
+pr = cProfile.Profile()
+pr.enable()
+"""
+
 
 
 def add_to_results(boats_in_section):
     Results[time] = boats_in_section
     return Results
 
-def HeatMap(boats_in_section,sections):
-    boats_in_section = np.transpose(np.array(boats_in_section))
-    boats_in_section = pandas.DataFrame(boats_in_section, index=sections)
-    sb.heatmap(boats_in_section,cmap = "YlGnBu")
-    
+def create_csv_results(results,filename):
+    df = pandas.DataFrame(results)
+    df.to_csv(filename, sep=',',index=False)
+    return
+
 """
 delete boat after the journey is finished
 """
@@ -32,6 +39,7 @@ def KillBoat(boat):
 
 global day
 global time
+global day_length
 global boats
 global hire_ind
 global Results
@@ -39,6 +47,7 @@ global winding_hole
 day_length = 12 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
+run_time = 3 #number of days to run simulation
 Results = {}
 
 """
@@ -56,7 +65,7 @@ turningback = canal['next turning back']
 """
 initialise lock status
 """
-[lock_status,All_BILL,All_BILR] = Lock_model.lock_init(lock_status)
+#[lock_status,All_BILL,All_BILR] = Lock_model.lock_init(lock_status)
 
 
 """
@@ -70,20 +79,21 @@ current_hire_num = orig_hire_num
 boats = []
 
 """
-for each time step generating hire boats to leave the hire companies and creating counts
+Time step for each 15mins/1km 
 """
-for i in range(32):
+for i in range(day_length*4*run_time):
     time += 1 #mod 12
     day = day + (time // day_length)
     time = time % day_length  
     """
     creating new boats and adding them to the boats list
     """
-    new_boats = Boats.generate_hire_boats(hire_ind, orig_hire_num)
-    for boat in new_boats:
-        boats.append(boat)
-        current_hire_num[hire_ind.index(boat.current_section)] -=1
-        
+    if day == 1 | 5:
+        new_boats = Boats.generate_hire_boats(hire_ind, orig_hire_num,day,day_length)
+        for boat in new_boats:
+            boats.append(boat)
+            current_hire_num[hire_ind.index(boat.current_section)] -=1
+    
     """
     creating counts of boats in each section along with direction of boats in each section
     """
@@ -95,8 +105,8 @@ for i in range(32):
     """
     lock stuff
     """
-    [All_BILL,All_BILR] = Lock_model.que_build(sections,All_BILL,All_BILR,lock_status,boats)
-    [All_BILL,All_BILR] = Lock_model.que_run(All_BILL,All_BILR)      
+    #[All_BILL,All_BILR] = Lock_model.que_build(sections,All_BILL,All_BILR,lock_status,boats)
+    #[All_BILL,All_BILR] = Lock_model.que_run(All_BILL,All_BILR)      
         
         
     """
@@ -115,18 +125,22 @@ for i in range(32):
             boat_number_neg[boat.current_section] += 1 
         if boat.alive == False:
             KillBoat(boat)
-        if lock_status[boat.current_section] != 0:
-            [lockage, lock_status] = Lock_model.lockage_count(boat_number_pos,boat_number_neg,lockage,lock_status)
-              
-    #add_to_results(boats_in_section)
+        """
+        may need to be outside of boat in boats loop
+        """
+        #if lock_status[boat.current_section] != 0:
+            #[lockage, lock_status] = Lock_model.lockage_count(boat_number_pos,boat_number_neg,lockage,lock_status)
         
-#df = pandas.DataFrame(Results)
-#df.to_csv("Results_of_SimTest.csv", sep=',',index=False)
-  
-#df =pandas.DataFrame(lockage)
-#df.to_csv("Lockage results Model 1", sep=',',index=False)
+    """
+    uncomment these to get results
+    """
+    #results = add_to_results(boats_in_section)
+#create_csv_results(results,"Model1_boats_in_section.csv")
+#create_csv_results(lockage,"Model1_lockage_results.csv")
     
-HeatMap(boats_in_section,sections)
+
+
+
     
 
 
