@@ -28,49 +28,62 @@ Children class could be:
 """
 import numpy as np
 
-def generate_hire_boats(hire_loc, orig_hire_num):
+def generate_hire_boats(hire_loc, orig_hire_num,day,day_length):
     boat_list = []
-    for i in range(len(hire_loc)):
-        percent_hire_num = orig_hire_num[i]//20
+    for i in range(len(hire_loc)): #can edit this value so if 10, 90% of boats go out
         new = np.random.uniform(size=1)
-        if new>0.5: #make this a value relating to the number of boats left in a marina
+        if new>0.1: #make this a value relating to the number of boats left in a marina
             new = 1
         else:
             new = 0
         for k in range(new):
-            boat_list.append(create_hire_boat(hire_loc[i]))
+            boat_list.append(create_boat(hire_loc[i],day,day_length))
     return boat_list
         
     
     
 
-class create_hire_boat:
+class create_boat:
     
-    def __init__(self, origin):
-      self.end_time = np.random.randint(1,32,size=None,dtype='int') # number of segments. Assume boats only go from 8am to 8pm max 
-      self.current_time = 0 #how long been travellig for
-      ind = np.random.randint(0,1,size=None,dtype='int')
-      direction = [-1,1]
-      self.start_direction = direction[ind]
-      self.current_direction = direction[ind]      
-      self.start_section = origin #need a way to randomly spawn boats from hire companies
-      self.current_section = origin
-      self.alive = True
-      """
-      generate route decisions for each boat?
-      """
-      
+    def __init__(self, origin,day,day_length):
+        trip_length = np.random.randint(0,1,size=None,dtype='int')
+        if trip_length == 0:
+            self.end_time = 7*day_length
+        elif trip_length == 1 and day == 1:
+            self.end_time = 4*day_length
+        else:
+            self.end_time = 3*day_length
+        
+        self.current_time = 0 #how long been travellig for
+        ind = np.random.randint(0,1,size=None,dtype='int')
+        direction = [-1,1]
+        self.start_direction = direction[ind]
+        self.current_direction = direction[ind]      
+        self.start_section = origin #need a way to randomly spawn boats from hire companies
+        self.current_section = origin
+        self.alive = True
+        
+        """
+        generate route decisions for each boat?
+        """      
     def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
         self.current_time += 1
         self.current_section = self.current_section + self.current_direction
+        """
+        put all of this in an if function so can turn if the current section is an integer
+        
+        """
         if self.current_direction == 1:
             turning = turningfor
         else:
             turning = turningback
         if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1:
             self.current_direction = self.start_direction*-1
+            self.start_direction = self.current_direction
         if self.current_section == self.start_section:
             self.alive = False
+        
+        
         """
         need to turn round if you reach the end of the canal
         """
