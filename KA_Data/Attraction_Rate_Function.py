@@ -9,9 +9,9 @@ A simple rating for each attraction by summing services at the given attraction.
 
 import pandas
 
-canal =  pandas.read_csv('KAServicesLatLong.csv',engine='python')
+canal =  pandas.read_csv('KAservices postcodes.csv',engine='python')
 
-names= canal['ï»¿Name']
+names= canal['Name']
 names = names.tolist()
 
 types = canal['Service']
