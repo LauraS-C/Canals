@@ -1,9 +1,4 @@
 """
-canal lock code
-code to define status of locks along the canal
-"""
-
-"""
 import everything I need
 """
 import pandas
@@ -22,7 +17,7 @@ getting data from file
 canal = pandas.read_csv('All_KA_Data.csv',engine='python')
 lock_status = list(canal.loc[:,'Lock Status'])
 lockage = list(canal.loc[:,'Lockage'])
-Section = list(canal.loc[:,'Section'])
+sections = list(canal.loc[:,'Section'])
 """
 setup - random initiallisation
 """
@@ -48,6 +43,10 @@ def lock_init(lock_status):
                     check = True
 
         i += (j-i)
+
+    return lock_status
+
+"""
     #setting up number of boats in locks as empty
     All_BILL = []
     i = 0
@@ -59,8 +58,7 @@ def lock_init(lock_status):
     while i < len(lock_status):
         All_BILR.append([])
         i += 1
-    return lock_status,All_BILL,All_BILR
-               
+"""
 """
 lockage counter
 lock_status - left hand side is 1 and right hand side is -1
@@ -110,7 +108,7 @@ def que_run(All_BILL,All_BILR):
     if empty_list(All_BILL) == True:
         for i in range(0,len(All_BILL)):
             if len(All_BILL[i]) > 0:
-                All_BILL[i][0].direction = 1
+                All_BILL[i][0].current_direction = 1
                 del All_BILL[i][0]
                 if len(All_BILL[i]) > 0:
                     for boat in All_BILL[i]:
@@ -118,27 +116,50 @@ def que_run(All_BILL,All_BILR):
     if empty_list(All_BILR) == True:
         for i in range(0,len(All_BILR)):
             if len(All_BILR[i]) > 0:
-                All_BILR[i][0].direction = 1
+                All_BILR[i][0].current_direction = 1
                 del All_BILR[i][0]
                 if len(All_BILR[i]) > 0:
                     for boat in All_BILR[i]:
                         boat.current_direction = 0
-    return All_BILL,All_BILR     
+    return All_BILL,All_BILR
 
 
-"""
-Code to have in run file potentially
-"""
+def que_main(lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction):
+    if boats_in_section[lock_loc] == 0:
+        if lock_check[lock_loc] == 0:
+            if direction == 1:
+                boat_in_lock_count_left[lock_loc] = 1
+                lock_check[lock_loc] += 1
+                if boat.start_direction == 1:
+                    boat.current_direction = 1
+            elif direction == -1:
+                boat_in_lock_count_right[lock_loc] = 1
+                lock_check[lock_loc] += 1
+                if boat.start_direction == -1:
+                    boat.current_direction = -1
+        elif lock_check[lock_loc] == 1:
+            if boat_in_lock_count_left[lock_loc] == 1 and direction == -1:
+                boat_in_lock_count_right[lock_loc] = 1
+                if boat.start_direction == -1:
+                    boat.current_direction = -1
+                lock_check[lock_loc] += 1
+            if boat_in_lock_count_right[lock_loc] == 1 and direction == 1:
+                boat_in_lock_count_right[lock_loc] = 1
+                if boat.start_direction == 1:
+                    boat.current_direction = 1
+                lock_check[lock_loc] += 1              
+        elif lock_check[lock_loc] == 2:
+            boat.current_driection  = 0          
+    elif boats_in_section[lock_loc] > 0:
+        boat.current_direction = 0
+
+               
 
 
-lock_init(lock_status)
-"""
-for i in range(0,len(lock_status)):
-    print(lock_status[i])
-"""
 
-#if lock_status[self.current_section] == 1 or lock_status[self.current_section] == -1:
-#    lockage_count(lock_status,lockage,self)
+
+
+
 
 
 
