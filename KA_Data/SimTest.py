@@ -54,7 +54,7 @@ turningfor = canal['next turning forward']
 turningback = canal['next turning back']
 
 """
-initialise lock status
+initialise lock status and lock_loc
 """
 #lock_status = Lock_model.lock_init(lock_status)
 
@@ -88,14 +88,16 @@ for i in range(day_length*4*run_time):
     """
     creating counts of boats in each section along with direction of boats in each section
     """
-    boats_in_section = np.zeros(len(sections))
-    boat_number_pos = np.zeros(len(sections))
-    boat_number_neg = np.zeros(len(sections))  
+    #boats_in_section = np.zeros(len(sections))
+    #boat_number_pos = np.zeros(len(sections))
+    #boat_number_neg = np.zeros(len(sections))  
 
 
     """
     lock stuff - put que_main here. Need: boats_in_section,
     lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction
+    
+    or set num_in_locks = 0 and lock_dir = 0
     """
          
        
@@ -108,8 +110,12 @@ for i in range(day_length*4*run_time):
     for boat in boats:
         boat.decision(turningfor,turningback,winding_hole)
         boats_in_section[boat.current_section] += 1
+        
         """
         making count of the direction of boats in each section
+        
+        if boat.current_section+boat.current_direction in locks_loc:
+            lock_stuff(num_in_lock,lock_dir,boat)
         """
         direction = boat.current_direction
         if direction == 1:

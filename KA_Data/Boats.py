@@ -67,7 +67,7 @@ class create_boat:
         generate route decisions for each boat
         """      
     def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
-        self.current_time += 1
+        self.current_time += 1        
         self.current_section = self.current_section + self.current_direction
         """
         put all of this in an if function so can turn if the current section is an integer

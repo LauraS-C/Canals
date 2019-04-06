@@ -86,6 +86,7 @@ def lockage_count(boat_number_pos,boat_number_neg,lockage,lock_status):
                 lock_status[i] = 1
     return lockage,lock_status
 
+
 def que_build(Section, All_BILL, All_BILR, lock_status,boats):
     for i in range(len(Section)):
         boats_in_lock_right = []
@@ -122,7 +123,7 @@ def que_run(All_BILL,All_BILR):
                     for boat in All_BILR[i]:
                         boat.current_direction = 0
     return All_BILL,All_BILR
-
+    
 
 def que_main(boats_in_section,lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction):
     if boats_in_section[lock_loc] == 0:
@@ -152,6 +153,22 @@ def que_main(boats_in_section,lock_loc,boat_in_lock_count_left,boat_in_lock_coun
             boat.current_driection  = 0          
     elif boats_in_section[lock_loc] > 0:
         boat.current_direction = 0
+        
+        
+"""
+set num_in_lock and lock_dir to 0 before boat in boats loop
+
+if num_in_lock == 1 and lock_dir * boat.start_direction == -1:
+    boat.current_direction == boat.start_direction
+    num_in_lock += 1
+elif num_in_lock == 0:
+    boat.current_direction == boat.start_direction
+    num_in_lock += 1
+    lock_dir = boat.current_direction
+else:
+    boat.current_direction == 0
+"""
+    
 
                
 
