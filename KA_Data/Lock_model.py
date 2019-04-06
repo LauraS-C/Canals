@@ -124,7 +124,7 @@ def que_run(All_BILL,All_BILR):
     return All_BILL,All_BILR
 
 
-def que_main(lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction):
+def que_main(boats_in_section,lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction):
     if boats_in_section[lock_loc] == 0:
         if lock_check[lock_loc] == 0:
             if direction == 1:

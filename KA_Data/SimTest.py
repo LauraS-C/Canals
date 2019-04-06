@@ -8,8 +8,7 @@ Created on Wed Mar 13 17:36:51 2019
 import pandas
 import numpy as np
 import Boats
-#import seaborn as sb
-#import Lock_model
+import Lock_model
 
 
 def add_to_results(boats_in_section):
@@ -54,11 +53,12 @@ orig_hire_num = canal['Boat Hires']
 winding_hole = canal['Turning Points']
 turningfor = canal['next turning forward']
 turningback = canal['next turning back']
+lock_status = canal['Lock Status']
 
 """
 initialise lock status
 """
-#[lock_status,All_BILL,All_BILR] = Lock_model.lock_init(lock_status)
+lock_status = Lock_model.lock_init(lock_status)
 
 
 """
@@ -96,10 +96,9 @@ for i in range(day_length*4*run_time):
 
 
     """
-    lock stuff
+    lock stuff - put que_main here
     """
-    #[All_BILL,All_BILR] = Lock_model.que_build(sections,All_BILL,All_BILR,lock_status,boats)
-    #[All_BILL,All_BILR] = Lock_model.que_run(All_BILL,All_BILR)      
+         
         
         
     """
@@ -118,11 +117,7 @@ for i in range(day_length*4*run_time):
             boat_number_neg[boat.current_section] += 1 
         if boat.alive == False:
             KillBoat(boat)
-        """
-        may need to be outside of boat in boats loop
-        """
-        #if lock_status[boat.current_section] != 0:
-            #[lockage, lock_status] = Lock_model.lockage_count(boat_number_pos,boat_number_neg,lockage,lock_status)
+        
         
     """
     uncomment these to get results
