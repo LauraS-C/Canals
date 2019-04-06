@@ -30,9 +30,9 @@ import numpy as np
 
 def generate_hire_boats(hire_loc, orig_hire_num,day,day_length):
     boat_list = []
-    for i in range(len(hire_loc)): #can edit this value so if 10, 90% of boats go out
+    for i in range(len(hire_loc)): 
         new = np.random.uniform(size=1)
-        if new>0.1: #make this a value relating to the number of boats left in a marina
+        if new>0.1: #can edit this value so if 10, 90% of boats go out
             new = 1
         else:
             new = 0
@@ -64,7 +64,7 @@ class create_boat:
         self.alive = True
         
         """
-        generate route decisions for each boat?
+        generate route decisions for each boat
         """      
     def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
         self.current_time += 1

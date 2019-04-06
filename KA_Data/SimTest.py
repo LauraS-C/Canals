@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Wed Mar 13 17:36:51 2019
 
@@ -8,7 +7,7 @@ Created on Wed Mar 13 17:36:51 2019
 import pandas
 import numpy as np
 import Boats
-import Lock_model
+#import Lock_model
 
 
 def add_to_results(boats_in_section):
@@ -53,12 +52,11 @@ orig_hire_num = canal['Boat Hires']
 winding_hole = canal['Turning Points']
 turningfor = canal['next turning forward']
 turningback = canal['next turning back']
-lock_status = canal['Lock Status']
 
 """
 initialise lock status
 """
-lock_status = Lock_model.lock_init(lock_status)
+#lock_status = Lock_model.lock_init(lock_status)
 
 
 """
@@ -96,10 +94,13 @@ for i in range(day_length*4*run_time):
 
 
     """
-    lock stuff - put que_main here
+    lock stuff - put que_main here. Need: boats_in_section,
+    lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction
     """
          
-        
+       
+    
+    
         
     """
     move boats along here
