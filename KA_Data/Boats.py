@@ -86,6 +86,72 @@ class create_boat:
         
         """
         need to turn round if you reach the end of the canal
+    
+        """
+        
+class day_boat(create_boat):
+    
+    def __init__(self, origin,day,day_length,time):
+        create_boat.__init__(self, origin,day,day_length)
+        self.end_time = day_length - time
+        
+class cont_cruiser(create_boat):
+    
+    def __init__(self):
+        """
+        surely they could be generated from random places?
+        would just travel for a day or two in one direction and then moor for 
+        a few weeks again at which point they can be deleted.
+        Random chance of stopping and getting deleted?
+        """
+    
+class private_moored(create_boat):
+    
+    def __init__(self):
+        """
+        they are basically the same as hire boats and would be generated at the
+        same times from the same places with the same schedule and priority. 
+        Do we need a different class or could we just increase the number of
+        hire boats generated?
+        """
+    
+class end_boat(create_boat):
+    
+    def __init__(self, canal_length):
+        
+        start = np.random.randint(0,1,size=None,dtype='int')
+        if start == 1:
+            self.start_section = canal_length
+            self.current_section = canal_length
+            self.start_direction = -1
+            self.current_direction = -1
+            
+        else:
+            self.start_section = 0
+            self.current_section = 0
+            self.start_direction = 1
+            self.current_direction = 1
+        self.alive = True
+        self.turned = False
+        
+    def decision(self, canal_length,winding_hole): #can make this decision process much more complicated
+        self.current_time += 1        
+        self.current_section = self.current_section + self.current_direction
+        """
+        put all of this in an if function so can turn if the current section is an integer
+        
+        """
+        turn = np.random.uniform(size=1)
+        if turn>0.8 & self.turned == False & winding_hole[self.current_section]==1:
+            #turn by random chance, if haven't turned before and there is a winding hole
+            self.current_direction = self.start_direction*-1
+            self.turned = True
+        if self.current_section == 0 | canal_length:
+            self.alive = False
+        """
+        just have the same stopping habits, maybe a random turning point or no 
+        turning point and then just delete the boat when it makes it's way out 
+        the other end of the system
         """
             
 
