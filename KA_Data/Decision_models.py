@@ -16,6 +16,7 @@ import random
 
 canal = pandas.read_csv('All_KA_Data.csv',engine='python')
 sections = canal['Section']
+lock_status = canal['Lock Status']
 
 towns = pandas.read_csv('TownsK&A.csv',engine='python')
 town_section = towns['Section']
@@ -118,11 +119,35 @@ def sec_prob_build(sections,attraction_section,attraction_rating,town_rat):
     for i in range(len(sec_perc)):
         sec = np.where(sections == str(new_att_section[i]))
         final_sec_perc[sec[0]] = sec_perc[i]
+    for i in range(len(final_sec_perc)):#adds a random between 1-5% stopping prob inn every section bar locks
+        if lock_status[i] == 0:
+            ran_perc = random.randint(1,5)
+            final_sec_perc[i] += ran_perc
     return final_sec_perc
 
 """
 These functions to be called within each boat in boats loop
 """
+
+def chip_calne_check(final_sec_perc,boat):#run after boat_stop
+    if boat.current_section == 28:#chippenham
+        stop_perc = final_sec_perc[28]
+        stop_prob = random.randint(1,100)
+        if stop_prob <= stop_perc:
+            boat.current_direction = 0
+            t = random.randint(2,8)
+            boat.stop_time = 18 + t
+        elif stop_prob > stop_perc:
+            boat.current_direction == boat.start_direction
+    if boat.current_section == 33:#calne
+        stop_perc = final_sec_perc[33]
+        stop_prob = random.randint(1,100)
+        if stop_prob <= stop_perc:
+            boat.current_direction = 0
+            t = random.randint(2,8)
+            boat.stop_time = 9 + t
+        elif stop_prob > stop_perc:
+            boat.current_direction == boat.start_direction
 
 def boat_stop(final_sec_perc,boat):
     if boat.stop_time == 0:
@@ -132,10 +157,99 @@ def boat_stop(final_sec_perc,boat):
             boat.current_direction = 0
             t = random.randint(2,8)
             boat.stop_time = t
+        chip_calne_check(final_sec_perc,boat)
     elif boat.stop_time != 0:
         boat.stop_time -= 1
         if boat.stop_time == 0:
             boat.current_direction = boat.start_direction
+
+
+
+def junc_dec_1(final_sec_perc,boat):
+    if boat.current_section == 70:
+        if boat.turned == False:
+            junc_tot = 50
+            direc_perc = random.randint(1,100)
+            if direc_perc <= junc_perc:
+                boat.current_section = 144
+                boat.current_direction = 1
+                boat.start_direction = 1
+        elif boat.turned == True:
+            if boat.start_line == C: 
+                boat.current_direction == 1
+                boat.start_direction = 1
+                boat.current_section == 144
+    elif boat.current_section == 144 and boat.current_direction == -1:
+        boat.current_section = 70
+        if boat.turned == False:
+            junc_tot = 50
+            direc_perc = random.randint(1,100)
+            if direc_perc <= junc_perc:
+                boat.current_direction = -1
+                boat.start_direction = -1
+            elif direc_perc > junc_perc:
+                boat.current_direction = 1
+                boat.start_direction = 1
+        if boat.turned == True:
+            if boat.start_line == B:
+                boat.current_direction = 1
+                boat.start_direction = 1
+            elif boat.start_line == A:
+                boat.current_direction = -1
+                boat.start_direction = -1
+
+
+def junc_dec_2(final_sec_perc,boat):#decision between taking junction or not
+    if boat.current_section == 70:#main lin only
+        if boat.turned == False:
+            junc_tot = 0
+            main_tot = 0
+            for i in range(71,144):
+                main_tot += final_sec_per[i]
+            for i in range(144,167):
+                junc_tot += final_sec_perc[i]
+            tot_tot = main_tot + junc_tot
+            junc_perc = junc_tot/tot_tot
+            direc_perc = random.randint(1,100)
+            if direc_perc <= junc_perc:
+                boat.current_section = 144
+                boat.current_direction = 1
+                boat.start_direction = 1
+        elif boat.turned == True:
+            if boat.start_line == C: #new sel.---- needs creating
+                boat.current_direction == 1
+                boat.start_direction = 1
+                boat.current_section == 144
+    elif boat.current_section == 144 and boat.current_direction == -1:
+        boat.current_section = 70
+        if boat.turned == False:
+            left_tot = 0
+            right_tot = 0
+            for i in range(1,69):
+                left_tot += final_sec_perc[i]
+            for i in range(71,143):
+                right_tot += final_sec_perc[i]
+            tot_tot = left_tot + right_tot
+            left_perc = left_tot/tot_tot
+            direc_perc = random.randint(1,100)
+            if direc_perc <= left_perc:
+                boat.current_direction = -1
+                boat.start_direction = -1
+            elif direc_perc > left_perc:
+                boat.current_direction = 1
+                boat.start_direction = 1
+        if boat.turned == True:
+            if boat.start_line == B:
+                boat.current_direction = 1
+                boat.start_direction = 1
+            elif boat.start_line == A:
+                boat.current_direction = -1
+                boat.start_direction = -1
+                
+            
+                
+            
+
 
 """
 This function goes boat creation
@@ -145,15 +259,15 @@ def marina_driec(boat,sections,sec_perc):
     right_tot = 0
     for i in range(len(sections)):
         if sections[i] < boat.current_section:
-            left_tot += sec_perc[i]
+            left_tot += final_sec_perc[i]
         elif sections[i] > boat.current_section:
-            right_tot += sec_perc[i]
+            right_tot += final_sec_perc[i]
     tot_tot = left_tot + right_tot
     left_perc = left_tot/tot_tot
     direc_perc = random.randint(1,100)
     if direc_perc <= left_perc:
         boat.start_driection = -1
-    if direc_perc > left_perc:
+    elif direc_perc > left_perc:
         boat.start_driection = 1
 
 """
