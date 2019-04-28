@@ -7,7 +7,7 @@ Created on Wed Mar 13 17:36:51 2019
 import pandas
 import numpy as np
 import Boats
-#import Lock_model
+import Lock_model
 
 
 def add_to_results(boats_in_section):
@@ -35,10 +35,11 @@ global boats
 global hire_ind
 global Results
 global winding_hole
+global num_in_lock
 day_length = 12 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
-run_time = 3 #number of days to run simulation
+run_time = 30 #number of days to run simulation
 Results = {}
 
 """
@@ -47,7 +48,7 @@ getting data from file
 canal = pandas.read_csv('All_KA_Data.csv',engine='python')
 sections = canal['Section']
 lock_status = list(canal['Lock Status'])
-lockage = canal['Lockage']
+lockage = list(canal['Lockage'])
 orig_hire_num = canal['Boat Hires']
 winding_hole = canal['Turning Points']
 turningfor = canal['next turning forward']
@@ -56,8 +57,8 @@ turningback = canal['next turning back']
 """
 initialise lock status and lock_loc
 """
-#lock_status = Lock_model.lock_init(lock_status)
-
+lock_status = Lock_model.lock_init(lock_status)
+lock_loc = list(np.nonzero(lock_status)[0])
 
 """
 finding locations of hire boat companies and the number of boats at each
@@ -72,6 +73,7 @@ boats = []
 """
 Time step for each 15mins/1km 
 """
+
 for i in range(day_length*4*run_time):
     time += 1 #mod 12
     day = day + (time // day_length)
@@ -80,17 +82,15 @@ for i in range(day_length*4*run_time):
     creating new boats and adding them to the boats list
     """
     if day == 1 | 5:
-        new_boats = Boats.generate_hire_boats(hire_ind, orig_hire_num,day,day_length)
+        new_boats = Boats.generate_hire_boats(hire_ind, orig_hire_num,day,day_length,current_hire_num)
         for boat in new_boats:
             boats.append(boat)
             current_hire_num[hire_ind.index(boat.current_section)] -=1
     
     """
-    creating counts of boats in each section along with direction of boats in each section
+    initialising counts of boats in each section 
     """
-    #boats_in_section = np.zeros(len(sections))
-    #boat_number_pos = np.zeros(len(sections))
-    #boat_number_neg = np.zeros(len(sections))  
+    boats_in_section = np.zeros(len(sections)) 
 
 
     """
@@ -99,9 +99,7 @@ for i in range(day_length*4*run_time):
     
     or set num_in_locks = 0 and lock_dir = 0
     """
-         
-       
-    
+    num_in_lock = np.zeros(len(sections))
     
         
     """
@@ -113,15 +111,10 @@ for i in range(day_length*4*run_time):
         
         """
         making count of the direction of boats in each section
-        
-        if boat.current_section+boat.current_direction in locks_loc:
-            lock_stuff(num_in_lock,lock_dir,boat)
         """
-        direction = boat.current_direction
-        if direction == 1:
-            boat_number_pos[boat.current_section] += 1
-        elif direction == -1:
-            boat_number_neg[boat.current_section] += 1 
+        lock_ind = boat.current_section + boat.start_direction
+        if lock_ind in lock_loc:
+            Lock_model.lock_stuff(num_in_lock,lock_status,boat,lock_ind,lockage)
         if boat.alive == False:
             KillBoat(boat)
         
@@ -131,7 +124,7 @@ for i in range(day_length*4*run_time):
     """
     #results = add_to_results(boats_in_section)
 #create_csv_results(results,"Model1_boats_in_section.csv")
-#create_csv_results(lockage,"Model1_lockage_results.csv")
+create_csv_results(lockage,"Model1_lockage_results.csv")
     
 
 

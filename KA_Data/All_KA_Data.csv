@@ -1,5 +1,5 @@
 Section,Bridges,Aqueducts,Pumps,next turning back,Turning Points,next turning forward,Tunnels,Lock Status,Lockage,Latitude,Longitude,Boat Hires,Marina,Hire names,Marina names
-"Lock 1, Hanham Lock",0,0,0,0,0,0,0,1,0,51.42853307,-2.510166968,0,,,
+"Lock 1, Hanham Lock",0,0,0,30,1,1,0,1,0,51.42853307,-2.510166968,0,,,
 139,0,0,0,29,0,1,0,0,0,51.426327,-2.508356,0,,,
 138,0,0,0,28,0,2,0,0,0,51.428014,-2.500576,0,,,
 137,1,0,0,27,0,3,0,0,0,51.42658998,-2.488109743,0,,,
@@ -29,8 +29,8 @@ Section,Bridges,Aqueducts,Pumps,next turning back,Turning Points,next turning fo
 "Lock 10, Wash House Lock",0,0,0,3,0,27,0,1,0,51.37719941,-2.35133548,0,,,
 "Lock 8/9, Bath Deep Lock",0,0,0,2,0,28,0,1,0,51.37693878,-2.35236428,0,,,
 "Lock 7, Bath Bottom Lock",0,0,0,1,0,29,0,1,0,51.37717024,-2.35462877,0,,,
-121,8,0,2,4,1,30,0,0,0,51.37785815,-2.352946826,0,,,
-120,3,0,0,3,1,1,2,0,0,51.384891,-2.348442254,4,4,"Bath Canal Boat Company, Anglo Welsh",Bath Narrowboats
+121,8,0,2,1,1,30,0,0,0,51.37785815,-2.352946826,0,,,
+120,3,0,0,0,1,1,2,0,0,51.384891,-2.348442254,4,4,"Bath Canal Boat Company, Anglo Welsh",Bath Narrowboats
 119,1,0,0,2,0,1,0,0,0,51.39164013,-2.34115347,0,,,
 118,1,0,0,1,0,2,0,0,0,51.39425467,-2.332699157,0,,,
 117,2,0,0,2,2,3,0,0,0,51.39523927,-2.317621199,4,,"Bloomsbury Canal Boats Ltd, Bath Narrowboats, Hunky dory days",
@@ -244,4 +244,4 @@ Lock 19. Seend Lock,0,0,0,40,0,9,0,1,0,51.3514161,-2.097490569,0,,,
 "Lock 106, County Lock",0,0,0,3,0,13,0,1,0,51.45114277,-0.973639128,0,,,
 "Lock 107, Blakes Lock",0,0,0,2,0,14,0,1,0,51.45610187,-0.954543498,0,,,
 1,4,0,0,1,0,15,0,0,0,51.45129772,-0.972180655,0,,,
-0,0,0,0,0,0,0,0,0,0,,,0,446,,Thames and Kennet Marina
+0,0,0,0,1,1,1,0,0,0,,,0,446,,Thames and Kennet Marina
