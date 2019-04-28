@@ -21,6 +21,7 @@ sections = list(canal.loc[:,'Section'])
 """
 setup - random initiallisation
 """
+
 def lock_init(lock_status):
     i = 0
     while i < len(lock_status)-1:
@@ -64,7 +65,7 @@ lockage counter
 lock_status - left hand side is 1 and right hand side is -1
 (this is the same as the approaching directions of the boats)
 """
-
+"""
 def lockage_count(boat_number_pos,boat_number_neg,lockage,lock_status):
     for i in range(0,len(boat_number_pos)):
         if boat_number_pos[i] > 0 and boat_number_neg[i] > 0:
@@ -85,8 +86,8 @@ def lockage_count(boat_number_pos,boat_number_neg,lockage,lock_status):
                 lockage[i] += 1/2
                 lock_status[i] = 1
     return lockage,lock_status
-
-
+"""
+"""
 def que_build(Section, All_BILL, All_BILR, lock_status,boats):
     for i in range(len(Section)):
         boats_in_lock_right = []
@@ -104,7 +105,8 @@ def que_build(Section, All_BILL, All_BILR, lock_status,boats):
     if empty_list(All_BILR) == True:
         All_BILR[i] = All_BILR[i].extend(boats_in_lock_right)
     return All_BILL,All_BILR
-            
+
+         
 def que_run(All_BILL,All_BILR):
     if empty_list(All_BILL) == True:
         for i in range(0,len(All_BILL)):
@@ -123,8 +125,8 @@ def que_run(All_BILL,All_BILR):
                     for boat in All_BILR[i]:
                         boat.current_direction = 0
     return All_BILL,All_BILR
-    
-
+"""   
+"""
 def que_main(boats_in_section,lock_loc,boat_in_lock_count_left,boat_in_lock_count_right,lock_check,direction):
     if boats_in_section[lock_loc] == 0:
         if lock_check[lock_loc] == 0:
@@ -156,19 +158,22 @@ def que_main(boats_in_section,lock_loc,boat_in_lock_count_left,boat_in_lock_coun
         
         
 """
-set num_in_lock and lock_dir to 0 before boat in boats loop
-
-if num_in_lock == 1 and lock_dir * boat.start_direction == -1:
-    boat.current_direction == boat.start_direction
-    num_in_lock += 1
-elif num_in_lock == 0:
-    boat.current_direction == boat.start_direction
-    num_in_lock += 1
-    lock_dir = boat.current_direction
-else:
-    boat.current_direction == 0
-"""
+#set num_in_lock and lock_dir to 0 before boat in boats loop
+def lock_stuff(num_in_lock,lock_status,boat,lock_ind,lockage):
     
+    if num_in_lock[lock_ind] == 1 and lock_status[lock_ind] * boat.start_direction == -1:
+        boat.current_direction == boat.start_direction
+        num_in_lock[lock_ind] += 1
+        lockage[lock_ind] += 1
+    elif num_in_lock[lock_ind] == 0:
+        boat.current_direction == boat.start_direction
+        num_in_lock[lock_ind] += 1
+        lock_status[lock_ind] = boat.current_direction
+        lockage[lock_ind] += 1
+    else:
+        boat.current_direction == 0
+    
+    return num_in_lock, lock_status,lockage 
 
                
 

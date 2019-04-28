@@ -28,16 +28,17 @@ Children class could be:
 """
 import numpy as np
 
-def generate_hire_boats(hire_loc, orig_hire_num,day,day_length):
+def generate_hire_boats(hire_loc, orig_hire_num,day,day_length,current_hire_num):
     boat_list = []
-    for i in range(len(hire_loc)): 
-        new = np.random.uniform(size=1)
-        if new>0.1: #can edit this value so if 10, 90% of boats go out
-            new = 1
-        else:
-            new = 0
-        for k in range(new):
-            boat_list.append(create_boat(hire_loc[i],day,day_length))
+    for i in range(len(hire_loc)):
+        if current_hire_num[i] >0:
+            new = np.random.uniform(size=1)
+            if new>0.1: #can edit this value so if 10, 90% of boats go out
+                new = 1
+            else:
+                new = 0
+            for k in range(new):
+                boat_list.append(create_boat(hire_loc[i],day,day_length))
     return boat_list
         
     
@@ -62,26 +63,33 @@ class create_boat:
         self.start_section = origin #need a way to randomly spawn boats from hire companies
         self.current_section = origin
         self.alive = True
+        self.turned = False
         
         """
         generate route decisions for each boat
         """      
     def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
-        self.current_time += 1        
-        self.current_section = self.current_section + self.current_direction
-        """
-        put all of this in an if function so can turn if the current section is an integer
+        self.current_time += 1     
+        if self.current_section<len(winding_hole) and self.current_section>0:
+            self.current_section = self.current_section + self.current_direction
+        #else:
+         #   print('Out of range')
         
-        """
         if self.current_direction == 1:
             turning = turningfor
         else:
             turning = turningback
-        if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1:
-            self.current_direction = self.start_direction*-1
-            self.start_direction = self.current_direction
+            
+        #if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1 and self.turned==False:
+        #print(self.current_section)
+        if self.turned==False and winding_hole[self.current_section] == 1:
+            if self.current_time + turning[self.current_section] > self.end_time//2:
+                self.current_direction = self.start_direction*-1
+                self.start_direction = self.current_direction
+                self.turned = True
         if self.current_section == self.start_section:
             self.alive = False
+        
         
         
         """
