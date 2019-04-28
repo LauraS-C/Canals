@@ -11,7 +11,7 @@ import Lock_model
 
 
 def add_to_results(boats_in_section):
-    Results[time] = boats_in_section
+    Results[full_time] = boats_in_section
     return Results
 
 def create_csv_results(results,filename):
@@ -30,6 +30,7 @@ def KillBoat(boat):
 
 global day
 global time
+global full_time
 global day_length
 global boats
 global hire_ind
@@ -39,6 +40,7 @@ global num_in_lock
 day_length = 12 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
+full_time =0
 run_time = 30 #number of days to run simulation
 Results = {}
 
@@ -75,9 +77,9 @@ Time step for each 15mins/1km
 """
 
 for i in range(day_length*4*run_time):
-    time += 1 #mod 12
+    full_time += 1 #mod 12
     day = day + (time // day_length)
-    time = time % day_length  
+    time = full_time % day_length  
     """
     creating new boats and adding them to the boats list
     """
