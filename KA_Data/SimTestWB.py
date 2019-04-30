@@ -7,7 +7,7 @@ Created on Wed Mar 13 17:36:51 2019
 import pandas
 import random
 import numpy as np
-import Boats
+import BoatsWBV1 as Boats
 import Lock_model
 #import Decision_models
 
@@ -74,7 +74,7 @@ global num_in_lock
 day_length = 12 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
-run_time = 3 #number of days to run simulation
+run_time = 30 #number of days to run simulation
 Results = {}
 
 """
@@ -161,8 +161,8 @@ for i in range(day_length*4*run_time):
     uncomment these to get results
     """
     results = add_to_results(boats_in_section)
-create_csv_results(results,"Model1_boats_in_section.csv")
-#create_csv_results(lockage,"Model2_lockage_results.csv")
+create_csv_results(results,"Model1_boats_in_sectionWB.csv")
+create_csv_results(lockage,"Model2_lockage_resultsWB.csv")
     
 
 
