@@ -34,7 +34,7 @@ def generate_hire_boats(hire_loc, orig_hire_num,day,day_length,current_hire_num)
     for i in range(len(hire_loc)):
         if current_hire_num[i] >0:
             new = np.random.uniform(size=1)
-            if new>0.1: #can edit this value so if 10, 90% of boats go out
+            if new>0.5: #can edit this value so if 10, 90% of boats go out
                 new = 1
             else:
                 new = 0
