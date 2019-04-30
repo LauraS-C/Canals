@@ -12,6 +12,7 @@ import Lock_model
 
 def add_to_results(boats_in_section):
     Results[full_time] = boats_in_section
+    #print(Results[full_time])
     return Results
 
 def create_csv_results(results,filename):
@@ -37,7 +38,7 @@ global hire_ind
 global Results
 global winding_hole
 global num_in_lock
-day_length = 12 # can change this based on the time of year - should be daylight hours
+day_length = 12*4 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
 full_time = 0
@@ -76,14 +77,15 @@ boats = []
 Time step for each 15mins/1km 
 """
 
-for i in range(day_length*4*run_time):
+for i in range(day_length*run_time):
     full_time += 1 #mod 12
-    day = day + (time // day_length)
+    day = (full_time // day_length) % 7
     time = full_time % day_length  
     """
     creating new boats and adding them to the boats list
     """
-    if day == 1 | 5:
+    
+    if day == 1 or day == 5:
         new_boats = Boats.generate_hire_boats(hire_ind, orig_hire_num,day,day_length,current_hire_num)
         for boat in new_boats:
             boats.append(boat)

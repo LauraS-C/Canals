@@ -1,4 +1,5 @@
 Section,Bridges,Aqueducts,Pumps,next turning back,Turning Points,next turning forward,Tunnels,Lock Status,Lockage,Latitude,Longitude,Boat Hires,Marina,Hire names,Marina names
+Out of System,0,0,0,1,1,1,0,0,0,,,0,,,
 "Lock 1, Hanham Lock",0,0,0,30,1,1,0,1,0,51.42853307,-2.510166968,0,,,
 139,0,0,0,29,0,1,0,0,0,51.426327,-2.508356,0,,,
 138,0,0,0,28,0,2,0,0,0,51.428014,-2.500576,0,,,
@@ -245,3 +246,4 @@ Lock 19. Seend Lock,0,0,0,40,0,9,0,1,0,51.3514161,-2.097490569,0,,,
 "Lock 107, Blakes Lock",0,0,0,2,0,14,0,1,0,51.45610187,-0.954543498,0,,,
 1,4,0,0,1,0,15,0,0,0,51.45129772,-0.972180655,0,,,
 0,0,0,0,1,1,1,0,0,0,,,0,446,,Thames and Kennet Marina
+Out of System,0,0,0,1,1,1,0,0,0,,,0,,,

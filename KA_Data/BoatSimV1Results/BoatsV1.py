@@ -68,10 +68,12 @@ class create_boat:
         """
         generate route decisions for each boat
         """      
+        
     def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
         self.current_time += 1     
         if self.current_section<len(winding_hole) and self.current_section>0:
             self.current_section = self.current_section + self.current_direction
+            print(self.current_section)
         #else:
          #   print('Out of range')
         
@@ -80,8 +82,6 @@ class create_boat:
         else:
             turning = turningback
             
-        #if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1 and self.turned==False:
-        #print(self.current_section)
         if self.turned==False and winding_hole[self.current_section] == 1:
             if self.current_time + turning[self.current_section] > self.end_time//2:
                 self.current_direction = self.start_direction*-1
