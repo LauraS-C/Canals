@@ -40,7 +40,7 @@ global num_in_lock
 day_length = 12 # can change this based on the time of year - should be daylight hours
 day = 1
 time = 0
-full_time =0
+full_time = 0
 run_time = 30 #number of days to run simulation
 Results = {}
 
