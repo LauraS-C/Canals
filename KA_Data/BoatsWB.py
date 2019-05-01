@@ -72,9 +72,7 @@ class create_boat:
             self.start_line = 'C'
         self.stop_time = 0
         
-        """
-        generate route decisions for each boat
-        """      
+            
     def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
         self.current_time += 1     
         if self.current_section<len(winding_hole)-1 and self.current_section>0:
@@ -142,7 +140,13 @@ class cont_cruiser(create_boat):
     
 class private_moored(create_boat):
     
-    def __init__(self):
+    def __init__(self,origin,day,day_length):
+        create_boat.__init__(self, origin,day,day_length)
+        trip_length = np.random.randint(1,14,size=None,dtype='int')
+        self.end_time = day_length * trip_length
+        
+    def decision(self, turningfor,turningback,winding_hole):
+        create_boat.decision(self, turningfor,turningback,winding_hole)
         """
         they are basically the same as hire boats and would be generated from the
         same places with the same schedule and priority but with different journey

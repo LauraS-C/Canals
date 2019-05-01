@@ -27,7 +27,6 @@ Children class could be:
     
 """
 import numpy as np
-import random
 
 def generate_hire_boats(hire_loc, orig_hire_num,day,day_length,current_hire_num):
     boat_list = []
@@ -98,26 +97,36 @@ class create_boat:
         if self.current_section == self.start_section:
             self.alive = False
         
-        
-        
-        """
-        need to turn round if you reach the end of the canal
-    
-        """
-        
 class day_boat(create_boat):
     
-    def __init__(self, origin,day,day_length,time):
+     def __init__(self, origin,day,day_length,time):
         create_boat.__init__(self, origin,day,day_length)
         self.end_time = day_length - time
+        
+     def decision(self, turningfor, turningback,winding_hole):
+        create_boat.decision(self,turningfor,turningback,winding_hole)
         
         """
         should use exactly the same decision process as the first hire_boat
         """
         
 class cont_cruiser(create_boat):
-    
-    def __init__(self):
+
+    def __init__(self,day_length,canal_length):
+        trip_length = np.random.randint(1,5,size=None,dtype='int')
+        self.end_time = day_length*trip_length
+        self.start_section = np.random.randint(0,canal_length,size=None,dtype='int')
+        self.alive = True
+        self.current_direction
+        self.current_section = self.start_section
+        self.current_time = 0
+        self.start_direction
+        self.stop_time = 0
+        
+    def decision(self): #can make this decision process much more complicated
+        self.current_time += 1     
+        if self.current_time == self.end_time:
+            self.alive = False
         """
         surely they could be generated from random places?
         would just travel for a day or two in one direction and then moor for 
@@ -127,7 +136,13 @@ class cont_cruiser(create_boat):
     
 class private_moored(create_boat):
     
-    def __init__(self):
+    def __init__(self,origin,day,day_length):
+        create_boat.__init__(self, origin,day,day_length)
+        trip_length = np.random.randint(1,14,size=None,dtype='int')
+        self.end_time = day_length * trip_length
+        
+    def decision(self, turningfor,turningback,winding_hole):
+        create_boat.decision(self, turningfor,turningback,winding_hole)
         """
         they are basically the same as hire boats and would be generated from the
         same places with the same schedule and priority but with different journey
