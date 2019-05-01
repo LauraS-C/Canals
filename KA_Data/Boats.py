@@ -86,11 +86,16 @@ class create_boat:
             turning = turningfor
         else:
             turning = turningback
-            
+        if self.current_section<len(winding_hole)-1 and self.current_section>0:
+            self.current_direction = self.start_direction*-1
+            self.start_direction = self.current_direction
+            self.turned = True
         #if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1 and self.turned==False:
         print(self.current_section)
-        if self.turned==False and winding_hole[self.current_section] == 1:
+        if self.turned==False and winding_hole[self.current_section] != 0:
+            print('here 1')
             if self.current_time + turning[self.current_section] > self.end_time//2:
+                print('here 2')
                 self.current_direction = self.start_direction*-1
                 self.start_direction = self.current_direction
                 self.turned = True

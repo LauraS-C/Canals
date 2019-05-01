@@ -6,7 +6,7 @@ Created on Wed Mar 13 17:36:51 2019
 
 import pandas
 import numpy as np
-import BoatsV1 as Boats
+import Boats
 import Lock_model
 
 
@@ -42,7 +42,7 @@ day_length = 12*4 # can change this based on the time of year - should be daylig
 day = 1
 time = 0
 full_time = 0
-run_time = 30 #number of days to run simulation
+run_time = 5 #number of days to run simulation
 Results = {}
 
 """
