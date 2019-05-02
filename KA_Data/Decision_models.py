@@ -14,21 +14,23 @@ from math import *
 import pandas
 import random
 
-canal = pandas.read_csv('All_KA_Data.csv',engine='python')
+#canal = pandas.read_csv('All_KA_Data.csv',engine='python')
+canal = pandas.read_csv('WB_all.csv',engine='python')
 sections = canal['Section']
 lock_status = canal['Lock Status']
 
-towns = pandas.read_csv('TownsK&A.csv',engine='python')
+#towns = pandas.read_csv('TownsK&A.csv',engine='python')
+towns = pandas.read_csv('TownsW&B.csv',engine='python')
 town_section = towns['Section']
 town_pop = towns['Population']
 
-attraction =  pandas.read_csv('KAservices_postcodes.csv',engine='python')
+
+#attraction =  pandas.read_csv('KAservices_postcodes.csv',engine='python')
+attraction =  pandas.read_csv('AttractionsW&B.csv',engine='python')
 names= attraction['Name']
 names = names.tolist()
 types = attraction['Service']
 types = types.tolist()
-postcodes = attraction['Postcode']
-postcodes = postcodes.tolist()
 at_section = attraction['Section']
 at_section = at_section.tolist()
 
@@ -37,7 +39,7 @@ In the set-up
 """
 
 #function to generate ratings for each section of the canal
-def section_rating(names,postcodes,types,at_section,sections):
+def section_rating(names,types,at_section,sections):
     attraction_types= {
         "Airport":1,
         "Diesel": 1,
@@ -54,19 +56,21 @@ def section_rating(names,postcodes,types,at_section,sections):
         "Self Use Pump Out":1,
         "Sewage Disposal":1,
         "Water Point":1,
-        "Wi Fi":1}
+        "Wi Fi":1,
+        "Take out":1,
+        "café":1,
+        "site seeing":1,
+        "Post office":1}
     names_final =[]
-    postcodes_final = []
     attraction_section = []
     for i in range(len(names)):
-        if (names[i] in names_final) != True or (postcodes[i] in postcodes_final) != True:
+        if (names[i] in names_final) != True:
             names_final.append(names[i])
-            postcodes_final.append(postcodes[i])
             attraction_section.append(at_section[i])
     ratings = np.zeros(len(names_final))
     for i in range(len(names_final)):
         for j in range(len(names)):
-            if names[j] == names_final[i] and postcodes[j] == postcodes_final[i]:
+            if names[j] == names_final[i]:
                 ratings[i] += attraction_types[types[j]]
     attraction_rating = ratings
     return attraction_section,attraction_rating
@@ -80,6 +84,12 @@ def town_rating(town_pop,max_rat):#max_rat depends on rating system
         if town_rat[i] != max(town_rat):
             town_rat[i] += 1#increase all but max town rating to give town rating more bias
             town_rat[i] = round(town_rat[i])
+    """
+    edit to increase bath
+    """
+    #town_rat = town_rat*5
+    #town_rat[1] = 3*town_rat[1]
+    #print(town_rat)
     return town_rat
 
 def sec_prob_build(sections,attraction_section,attraction_rating,town_rat):
@@ -123,6 +133,10 @@ def sec_prob_build(sections,attraction_section,attraction_rating,town_rat):
         if lock_status[i] == 0:
             ran_perc = random.randint(1,5)
             final_sec_perc[i] += ran_perc
+        else:
+            final_sec_perc[i] = -1
+    #np.savetxt("final_sec_perc.csv", final_sec_perc, delimiter=",")
+    #print(final_sec_perc)
     return final_sec_perc
 
 """
@@ -152,6 +166,8 @@ def chip_calne_check(final_sec_perc,boat):#run after boat_stop
 def boat_stop(final_sec_perc,boat):
     if boat.stop_time == 0:
         stop_perc = final_sec_perc[boat.current_section]
+        if stop_perc < 0:
+            stop_perc = 0
         stop_prob = random.randint(1,100)
         if stop_prob <= stop_perc:
             boat.current_direction = 0
@@ -165,24 +181,24 @@ def boat_stop(final_sec_perc,boat):
 
 
 
-def junc_dec_1(final_sec_perc,boat):
+def junc_dec_1(boat):
     if boat.current_section == 70:
         if boat.turned == False:
-            junc_tot = 50
+            junc_perc = 50
             direc_perc = random.randint(1,100)
             if direc_perc <= junc_perc:
                 boat.current_section = 144
                 boat.current_direction = 1
                 boat.start_direction = 1
         elif boat.turned == True:
-            if boat.start_line == C: 
-                boat.current_direction == 1
+            if boat.start_line == 'C': 
+                boat.current_direction = 1
                 boat.start_direction = 1
-                boat.current_section == 144
+                boat.current_section = 144
     elif boat.current_section == 144 and boat.current_direction == -1:
         boat.current_section = 70
         if boat.turned == False:
-            junc_tot = 50
+            junc_perc = 50
             direc_perc = random.randint(1,100)
             if direc_perc <= junc_perc:
                 boat.current_direction = -1
@@ -191,46 +207,48 @@ def junc_dec_1(final_sec_perc,boat):
                 boat.current_direction = 1
                 boat.start_direction = 1
         if boat.turned == True:
-            if boat.start_line == B:
+            if boat.start_line == 'B':
                 boat.current_direction = 1
                 boat.start_direction = 1
-            elif boat.start_line == A:
+            elif boat.start_line == 'A':
                 boat.current_direction = -1
                 boat.start_direction = -1
 
 
 def junc_dec_2(final_sec_perc,boat):#decision between taking junction or not
-    if boat.current_section == 70:#main lin only
+    if boat.current_section == 70:
         if boat.turned == False:
             junc_tot = 0
             main_tot = 0
-            for i in range(71,144):
-                main_tot += final_sec_per[i]
-            for i in range(144,167):
+            for i in range(72,142):
+                main_tot += final_sec_perc[i]
+            for i in range(143,165):
                 junc_tot += final_sec_perc[i]
+            #print(main_tot,junc_tot)
             tot_tot = main_tot + junc_tot
-            junc_perc = junc_tot/tot_tot
+            junc_perc = (junc_tot/tot_tot)*100
+            #print(junc_perc)
             direc_perc = random.randint(1,100)
             if direc_perc <= junc_perc:
-                boat.current_section = 144
+                boat.current_section = 142
                 boat.current_direction = 1
                 boat.start_direction = 1
         elif boat.turned == True:
-            if boat.start_line == C: #new sel.---- needs creating
+            if boat.start_line == 'C': 
                 boat.current_direction == 1
                 boat.start_direction = 1
-                boat.current_section == 144
-    elif boat.current_section == 144 and boat.current_direction == -1:
+                boat.current_section = 142
+    elif boat.current_section == 142 and boat.current_direction == -1:
         boat.current_section = 70
         if boat.turned == False:
             left_tot = 0
             right_tot = 0
-            for i in range(1,69):
+            for i in range(1,71):
                 left_tot += final_sec_perc[i]
-            for i in range(71,143):
+            for i in range(73,142):
                 right_tot += final_sec_perc[i]
             tot_tot = left_tot + right_tot
-            left_perc = left_tot/tot_tot
+            left_perc = (left_tot/tot_tot)*100
             direc_perc = random.randint(1,100)
             if direc_perc <= left_perc:
                 boat.current_direction = -1
@@ -239,18 +257,14 @@ def junc_dec_2(final_sec_perc,boat):#decision between taking junction or not
                 boat.current_direction = 1
                 boat.start_direction = 1
         if boat.turned == True:
-            if boat.start_line == B:
+            if boat.start_line == 'B':
                 boat.current_direction = 1
                 boat.start_direction = 1
-            elif boat.start_line == A:
+            elif boat.start_line == 'A':
                 boat.current_direction = -1
                 boat.start_direction = -1
                 
             
-                
-            
-
-
 """
 This function goes boat creation
 """
@@ -263,7 +277,7 @@ def marina_driec(boat,sections,sec_perc):
         elif sections[i] > boat.current_section:
             right_tot += final_sec_perc[i]
     tot_tot = left_tot + right_tot
-    left_perc = left_tot/tot_tot
+    left_perc = (left_tot/tot_tot)*100
     direc_perc = random.randint(1,100)
     if direc_perc <= left_perc:
         boat.start_driection = -1
@@ -273,9 +287,9 @@ def marina_driec(boat,sections,sec_perc):
 """
 Test run section below
 """
-[attraction_section,attraction_rating] = section_rating(names,postcodes,types,at_section,sections)
-town_rat = town_rating(town_pop,max(attraction_rating))
-sec_prob_build(sections,attraction_section,attraction_rating,town_rat)
+#[attraction_section,attraction_rating] = section_rating(names,types,at_section,sections)
+#town_rat = town_rating(town_pop,max(attraction_rating))
+#sec_prob_build(sections,attraction_section,attraction_rating,town_rat)
 
 
 

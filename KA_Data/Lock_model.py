@@ -105,7 +105,6 @@ def que_build(Section, All_BILL, All_BILR, lock_status,boats):
     if empty_list(All_BILR) == True:
         All_BILR[i] = All_BILR[i].extend(boats_in_lock_right)
     return All_BILL,All_BILR
-
          
 def que_run(All_BILL,All_BILR):
     if empty_list(All_BILL) == True:
@@ -174,31 +173,3 @@ def lock_stuff(num_in_lock,lock_status,boat,lock_ind,lockage):
         boat.current_direction == 0
     
     return num_in_lock, lock_status,lockage 
-
-               
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

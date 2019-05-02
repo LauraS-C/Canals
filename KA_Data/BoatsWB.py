@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 12 18:28:17 2019
-
-@author: laura
-"""
-
 """
 Could create boats as a class and when we get more types/categories to add, we 
 can just make subcategories with the extra information. 
@@ -27,8 +20,9 @@ Children class could be:
     
 """
 import numpy as np
+import random
 
-def generate_hire_boats(hire_loc, orig_hire_num,day,day_length,current_hire_num):
+def generate_hire_boats(time,hire_loc, orig_hire_num,day,day_length,current_hire_num,boat_type):
     boat_list = []
     for i in range(len(hire_loc)):
         if current_hire_num[i] >0:
@@ -38,7 +32,9 @@ def generate_hire_boats(hire_loc, orig_hire_num,day,day_length,current_hire_num)
             else:
                 new = 0
             for k in range(new):
-                boat_list.append(create_boat(hire_loc[i],day,day_length))
+                boat_list.append(boat_type(time,hire_loc[i],day,day_length))
+    for boat in boat_list:
+        current_hire_num[hire_loc.index(boat.current_section)] -=1
     return boat_list
         
     
@@ -46,7 +42,7 @@ def generate_hire_boats(hire_loc, orig_hire_num,day,day_length,current_hire_num)
 
 class create_boat:
     
-    def __init__(self, origin,day,day_length):
+    def __init__(self, time,origin,day,day_length):
         trip_length = np.random.randint(0,1,size=None,dtype='int')
         if trip_length == 0:
             self.end_time = 7*day_length
@@ -72,8 +68,10 @@ class create_boat:
             self.start_line = 'C'
         self.stop_time = 0
         
-            
-    def decision(self, turningfor,turningback,winding_hole): #can make this decision process much more complicated
+        """
+        generate route decisions for each boat
+        """      
+    def decision(self, turningfor,turningback,winding_hole,canal_length): #can make this decision process much more complicated
         self.current_time += 1     
         if self.current_section<len(winding_hole)-1 and self.current_section>0:
             self.current_section = self.current_section + self.current_direction
@@ -85,6 +83,11 @@ class create_boat:
         else:
             turning = turningback
             
+        if self.current_section==2 or self.current_section==164 or self.current_section==142:
+            self.current_direction = self.start_direction*-1
+            self.start_direction = self.current_direction
+            self.turned = True    
+        #if self.current_time + turning[self.current_section] > self.end_time//2 and winding_hole[self.current_section] == 1 and self.turned==False:
         #print(self.current_section)
         if self.turned==False and winding_hole[self.current_section] == 1:
             if self.current_time + turning[self.current_section] > self.end_time//2:
@@ -94,16 +97,22 @@ class create_boat:
         if self.current_section == self.start_section:
             self.alive = False
         
-
+        
+        
+        """
+        need to turn round if you reach the end of the canal
+    
+        """
         
 class day_boat(create_boat):
     
-    def __init__(self, origin,day,day_length,time):
-        create_boat.__init__(self, origin,day,day_length)
+    def __init__(self, time,origin,day,day_length):
+        create_boat.__init__(self, time,origin,day,day_length)
         self.end_time = day_length - time
         
-    def decision(self, turningfor, turningback,winding_hole):
-        create_boat.decision(self,turningfor,turningback,winding_hole)
+        
+    def decision(self, turningfor,turningback,winding_hole,canal_length):
+        create_boat.decision(self,turningfor,turningback,winding_hole,canal_length)
         """
         should use exactly the same decision process as the first hire_boat
         """
@@ -115,10 +124,10 @@ class cont_cruiser(create_boat):
         self.end_time = day_length*trip_length
         self.start_section = np.random.randint(0,canal_length,size=None,dtype='int')
         self.alive = True
-        self.current_direction
+        self.current_direction = 0
         self.current_section = self.start_section
         self.current_time = 0
-        self.start_direction
+        self.start_direction = 0
         if self.start_section <=70:
             self.start_line = 'A'
         elif self.start_section >70 and self.start_section<=143:
@@ -126,8 +135,9 @@ class cont_cruiser(create_boat):
         else:
             self.start_line = 'C'
         self.stop_time = 0
-        
-    def decision(self): #can make this decision process much more complicated
+        self.turned = False
+
+    def decision(self, turningfor,turningback,winding_hole,canal_length): #can make this decision process much more complicated
         self.current_time += 1     
         if self.current_time == self.end_time:
             self.alive = False
@@ -140,13 +150,13 @@ class cont_cruiser(create_boat):
     
 class private_moored(create_boat):
     
-    def __init__(self,origin,day,day_length):
-        create_boat.__init__(self, origin,day,day_length)
-        trip_length = np.random.randint(1,14,size=None,dtype='int')
-        self.end_time = day_length * trip_length
+    def __init__(self,time,origin,day,day_length):
+        create_boat.__init__(self, time,origin,day,day_length)
+        trip_length = np.random.randint(1,14,size = None,dtype='int')
+        self.end_time = trip_length*day_length
         
-    def decision(self, turningfor,turningback,winding_hole):
-        create_boat.decision(self, turningfor,turningback,winding_hole)
+    def decision(self, turningfor,turningback,winding_hole,canal_length):
+        create_boat.decision(self,turningfor,turningback,winding_hole,canal_length)
         """
         they are basically the same as hire boats and would be generated from the
         same places with the same schedule and priority but with different journey
@@ -159,13 +169,17 @@ class end_boat(create_boat):
     
     def __init__(self, canal_length):
         
-        start = np.random.randint(0,1,size=None,dtype='int')
+        start = np.random.randint(0,2,size=None,dtype='int')
         if start == 1:
             self.start_section = canal_length
             self.current_section = canal_length
             self.start_direction = -1
             self.current_direction = -1
-            
+        elif start == 2:
+            self.start_section = 142
+            self.current_section = 142
+            self.start_direction = -1
+            self.current_direction = -1
         else:
             self.start_section = 0
             self.current_section = 0
@@ -174,12 +188,12 @@ class end_boat(create_boat):
         self.alive = True
         self.turned = False
         
-    def decision(self, canal_length,winding_hole): #can make this decision process much more complicated
+    def decision(self, turningfor,turningback,winding_hole,canal_length): #can make this decision process much more complicated
         self.current_time += 1        
         self.current_section = self.current_section + self.current_direction
         
         turn = np.random.uniform(size=1)
-        if turn>0.9 & self.turned == False & winding_hole[self.current_section]==1:
+        if turn>0.8 & self.turned == False & winding_hole[self.current_section]==1:
             #turn by random chance, if haven't turned before and there is a winding hole
             self.current_direction = self.start_direction*-1
             self.start_direction = self.current_direction
@@ -191,11 +205,3 @@ class end_boat(create_boat):
         turning point and then just delete the boat when it makes it's way out 
         the other end of the system
         """
-            
-
-          
-            
-
-        
-            
-        
