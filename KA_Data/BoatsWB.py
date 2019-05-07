@@ -187,6 +187,7 @@ class end_boat(create_boat):
             self.current_direction = 1
         self.alive = True
         self.turned = False
+        self.current_time = 0
         
     def decision(self, turningfor,turningback,winding_hole,canal_length): #can make this decision process much more complicated
         self.current_time += 1        

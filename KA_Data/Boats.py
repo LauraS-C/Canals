@@ -175,13 +175,16 @@ class end_boat(create_boat):
             self.current_direction = 1
         self.alive = True
         self.turned = False
+        self.end_time = 5
+        self.current_time = 0
+        self.stop_time = 0
         
     def decision(self, turningfor,turningback,winding_hole,canal_length): #can make this decision process much more complicated
         self.current_time += 1        
         self.current_section = self.current_section + self.current_direction
         
         turn = np.random.uniform(size=1)
-        if turn>0.8 & self.turned == False & winding_hole[self.current_section]==1:
+        if turn>0.8 and self.turned == False and winding_hole[self.current_section]==1:
             #turn by random chance, if haven't turned before and there is a winding hole
             self.current_direction = self.start_direction*-1
             self.start_direction = self.current_direction

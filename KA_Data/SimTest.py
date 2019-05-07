@@ -171,9 +171,9 @@ for i in range(day_length*run_time):
         for i in range(boat_numbers[0]//20):
             gen = np.random.uniform(size=1)
             if gen < boat_numbers[0]/100:
-                which = np.random.randint(0,1,size=None,dtype='int')
+                which = np.random.uniform(size=1)
                 current_boat_num[0] -= 1
-                if which == 0:
+                if which < 0.75:
                     new_boats.append(Boats.cont_cruiser(day_length,canal_length))
                 else:
                     new_boats.append(Boats.end_boat(canal_length))
@@ -243,5 +243,5 @@ for i in range(day_length*run_time):
     uncomment these to get results
     """
     results = add_to_results(boats_in_section)
-create_csv_results(results,"Model3_boats_in_section_KA.csv")
-create_csv_results(lockage,"Model3_lockage_results_KA.csv")
+create_csv_results(results,"Model3_boats_in_section_KA_ver3changedratio.csv")
+create_csv_results(lockage,"Model3_lockage_results_KA_ver3changedratio.csv")
