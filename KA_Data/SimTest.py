@@ -227,7 +227,7 @@ for i in range(day_length*run_time):
         """
         junction decision function
         """
-        Decision_models.junc_dec_2(final_sec_perc,boat)
+        #Decision_models.junc_dec_2(final_sec_perc,boat)
         
         """
         making count of the direction of boats in each section
@@ -242,6 +242,6 @@ for i in range(day_length*run_time):
     """
     uncomment these to get results
     """
-    #results = add_to_results(boats_in_section)
-#create_csv_results(results,"Model2_boats_in_section.csv")
-#create_csv_results(lockage,"Model2_lockage_results.csv")
+    results = add_to_results(boats_in_section)
+create_csv_results(results,"Model3_boats_in_section_KA.csv")
+create_csv_results(lockage,"Model3_lockage_results_KA.csv")

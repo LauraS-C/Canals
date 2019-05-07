@@ -14,19 +14,19 @@ from math import *
 import pandas
 import random
 
-#canal = pandas.read_csv('All_KA_Data.csv',engine='python')
-canal = pandas.read_csv('WB_all.csv',engine='python')
+canal = pandas.read_csv('All_KA_Data.csv',engine='python')
+#canal = pandas.read_csv('WB_all.csv',engine='python')
 sections = canal['Section']
 lock_status = canal['Lock Status']
 
-#towns = pandas.read_csv('TownsK&A.csv',engine='python')
-towns = pandas.read_csv('TownsW&B.csv',engine='python')
+towns = pandas.read_csv('TownsK&A.csv',engine='python')
+#towns = pandas.read_csv('TownsW&B.csv',engine='python')
 town_section = towns['Section']
 town_pop = towns['Population']
 
 
-#attraction =  pandas.read_csv('KAservices_postcodes.csv',engine='python')
-attraction =  pandas.read_csv('AttractionsW&B.csv',engine='python')
+attraction =  pandas.read_csv('KAservices_postcodes.csv',engine='python')
+#attraction =  pandas.read_csv('AttractionsW&B.csv',engine='python')
 names= attraction['Name']
 names = names.tolist()
 types = attraction['Service']
