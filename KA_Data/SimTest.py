@@ -5,8 +5,8 @@ Created on Wed Mar 13 17:36:51 2019
 
 import pandas
 import numpy as np
-#import BoatsWB as Boats
-import Boats as Boats
+import BoatsWB as Boats
+#import Boats as Boats
 import Lock_model
 import Decision_models ####
 import random ####
@@ -79,16 +79,16 @@ day_length = 12*4 # can change this based on the time of year - should be daylig
 day = 1
 time = 0
 full_time = 0
-run_time = 5 #number of days to run simulation
+run_time = 30 #number of days to run simulation
 Results = {}
 
 """
 getting data from file
 """
-canal = pandas.read_csv('All_KA_Data.csv',engine='python')
-boat_numbers = [686,314] #KA boat numbers - continuous cruisers & end boats,priv moorings
-#canal = pandas.read_csv('WB_all.csv',engine='python')
-#boat_numbers = [396,181] # WB boat numbers - continuous cruisers & end boats,priv moorings
+#canal = pandas.read_csv('All_KA_Data.csv',engine='python')
+#boat_numbers = [686,314] #KA boat numbers - continuous cruisers & end boats,priv moorings
+canal = pandas.read_csv('WB_all.csv',engine='python')
+boat_numbers = [396,181] # WB boat numbers - continuous cruisers & end boats,priv moorings
 current_boat_num = boat_numbers
 sections = canal['Section']
 lock_status = list(canal['Lock Status'])
@@ -102,14 +102,14 @@ canal_length = len(sections)-1
 
 
 #####Decision model data retreaval######
-towns = pandas.read_csv('TownsK&A.csv',engine='python')
-#towns = pandas.read_csv('TownsW&B.csv',engine='python')
+#towns = pandas.read_csv('TownsK&A.csv',engine='python')
+towns = pandas.read_csv('TownsW&B.csv',engine='python')
 town_section = towns['Section']
 town_pop = towns['Population']
 
 
-attraction =  pandas.read_csv('KAservices_postcodes.csv',engine='python')
-#attraction =  pandas.read_csv('AttractionsW&B.csv',engine='python')
+#attraction =  pandas.read_csv('KAservices_postcodes.csv',engine='python')
+attraction =  pandas.read_csv('AttractionsW&B.csv',engine='python')
 names= attraction['Name']
 names = names.tolist()
 types = attraction['Service']
@@ -243,5 +243,5 @@ for i in range(day_length*run_time):
     uncomment these to get results
     """
     results = add_to_results(boats_in_section)
-create_csv_results(results,"Model3_boats_in_section_KA_ver3changedratio.csv")
-create_csv_results(lockage,"Model3_lockage_results_KA_ver3changedratio.csv")
+create_csv_results(results,"Model3_boats_in_section_WB_month.csv")
+create_csv_results(lockage,"Model3_lockage_results_WB_month.csv")
